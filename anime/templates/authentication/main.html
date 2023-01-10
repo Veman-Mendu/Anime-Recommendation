@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendation</title>
+</head>
+<body>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissable fade show" role="alert">
+        <strong>Message:</strong>{{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+    <h3>Everything Starts Here</h3>
+
+    {% if user.is_authenticated %}
+        <h3>Hello {{ uname }}</h3>
+        <button type="submit"><a href="/random">Suprise me</a>
+        <button type="submit"><a href="/signout">Sign OUT</a></button>
+
+        <h4>Select WatchedAnime</h4>
+        <form method="post" action="{% url 'recommendation' %}">
+        {% csrf_token %}
+            <input type="text" name="reqdata" placeholder="Your watched anime name">
+            <input type="submit" value="Recommend">
+        </form>
+
+        {% for anime in anime_list %}
+
+            <h3>{{anime.title}}</h3>
+            <li><Strong>Genre: </Strong>{{anime.genre}}</li>
+            <li><Strong>Streaming Platform:</Strong>{{anime.sp}}</li>
+        {% endfor %}
+
+    {% else %}
+        <button type="submit"><a href="/signup">SignUP</a>
+        <button type="submit"><a href="/signin">SignIN</a>
+    {% endif %}
+</body>
+</html>
